@@ -2,142 +2,46 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>MMPvP club</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #0f172a;
-  color: white;
-}
-
-/* Navbar */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  padding: 15px 30px;
-  background: #020617;
-}
-
-.logo {
-  font-size: 22px;
-  font-weight: bold;
-  color: #38bdf8;
-}
-
-.navbar a {
-  color: white;
-  text-decoration: none;
-  margin-left: 20px;
-}
-
-/* Hero */
-.hero {
-  text-align: center;
-  padding: 60px 20px;
-}
-
-.hero h1 {
-  font-size: 40px;
-}
-
-.hero p {
-  color: #94a3b8;
-}
-
-/* Games grid */
-.games {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
-
-.card {
-  background: #1e293b;
-  border-radius: 15px;
-  overflow: hidden;
-  transition: 0.3s;
-}
-
-.card:hover {
-  transform: scale(1.05);
-}
-
-.card img {
-  width: 100%;
-}
-
-.card-content {
-  padding: 15px;
-}
-
-.price {
-  color: #38bdf8;
-  margin-top: 10px;
-}
-
-button {
-  margin-top: 10px;
-  padding: 8px 12px;
-  border: none;
-  background: #38bdf8;
-  color: black;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-/* Footer */
-.footer {
-  text-align: center;
-  padding: 20px;
-  background: #020617;
-  color: #94a3b8;
-}
-</style>
-
+<title>MMPvP Club</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <!-- Navbar -->
 <div class="navbar">
-  <div class="logo">🎮 MMPvP</div>
+  <div class="logo">🎮MMPvP club</div>
   <div>
     <a href="#">Home</a>
-    <a href="#">Games</a>
+    <a href="#">Store</a>
     <a href="#">Cart</a>
   </div>
 </div>
 
 <!-- Hero -->
 <div class="hero">
-  <h1>Welcome to MMPvP Club</h1>
-  <p>Buy Ranks</p>
+  <h1>Welcome to MMPvP club</h1>
+  <p>Buy Coins, ranks and cosmetics</p>
 </div>
 
 <!-- Games -->
-<div class="games" id="games">
+<div class="games">
 
   <div class="card">
-    <img src="">
     <div class="card-content">
       <h3>V.I.P</h3>
-      <div class="price">$5</div>
-      <button onclick="buy('V.I.P')">Buy</button>
+      <div class="price">23,000ks</div>
+      <button onclick="buyGame('V.I.P')">Buy</button>
     </div>
-  
+  </div>
+
+</div>
+
 <!-- Footer -->
 <div class="footer">
   © 2026 MMPvP
 </div>
 
-<script>
-function buy(game){
-  alert("You selected: " + game);
-}
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
