@@ -1,34 +1,345 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Buy rank</title>
-<style>
-body {
-  font-family: Arial;
-  background: #0f172a;
-  color: white;
-  text-align: center;
-  padding-top: 100px;
-}
-</style>
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Receipt Generator</title>
+    <style>
+        :root {
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --danger-color: #dc2626;
+            --border-color: #e5e7eb;
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        /* Form Configuration Styling */
+        .form-section {
+            flex: 1;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #111827;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .row .form-group {
+            flex: 1;
+        }
+
+        /* Dynamic Table Styling */
+        .items-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 40px;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: #4b5563;
+            margin-bottom: 5px;
+        }
+
+        .item-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 40px;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            cursor: pointer;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: background 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: #e5e7eb;
+            color: #374151;
+            font-size: 0.85rem;
+            padding: 8px 12px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #d1d5db;
+        }
+
+        .btn-danger {
+            background-color: #fee2e2;
+            color: var(--danger-color);
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .btn-danger:hover {
+            background-color: #fca5a5;
+        }
+
+        /* Live Preview Styling */
+        .preview-section {
+            width: 380px;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .receipt-paper {
+            background: #fff;
+            padding: 20px;
+            border: 1px dashed #9ca3af;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            color: #000;
+        }
+
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .receipt-brand {
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .receipt-divider {
+            border-top: 1px dashed #000;
+            margin: 10px 0;
+        }
+
+        .receipt-metadata p {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3px;
+            font-size: 0.85rem;
+        }
+
+        .receipt-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .receipt-table th {
+            text-align: left;
+            border-bottom: 1px dashed #000;
+            padding-bottom: 5px;
+            font-size: 0.85rem;
+        }
+
+        .receipt-table td {
+            padding: 5px 0;
+            vertical-align: top;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .receipt-totals p {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .receipt-totals p.grand-total {
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-top: 1px dashed #000;
+            padding-top: 5px;
+            margin-top: 5px;
+        }
+
+        .receipt-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.85rem;
+        }
+
+        /* Print Media Rule Optimization */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .preview-section, .preview-section * {
+                visibility: visible;
+            }
+            body {
+                background: #fff;
+                padding: 0;
+            }
+            .preview-section {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                box-shadow: none;
+                padding: 0;
+            }
+            .receipt-paper {
+                border: none;
+            }
+            .btn, h2 {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
 <body>
 
-<h1 id="gameTitle">Payment is KbzPay</h1>
-<p>Create a ticket in our discord 🎮</p>
-<h1>V.I.P rank: Custom armor trims, access to exclusive cosmetics, and a unique in-game badge name</h1>
-<h1>Ace rank: Special privileges and recognition within the community. Create tournaments</h1>
-<h1>Ace+ rank: The ultimate prestige rank with all the benefits of the previous ranks + Priority queue and /fly at spawn</h1>
-<a href="https://discord.gg/s6Y6TJPuUx" target="_blank">Join our Discord</a>
-<script>
-// Get game name from URL
-const params = new URLSearchParams(window.location.search);
-const game = params.get("game");
+    <div class="container">
+        <!-- Form input mapping configuration -->
+        <div class="form-section">
+            <h2>Receipt Configuration</h2>
+            
+            <div class="form-group">
+                <label for="inputBrand">Business Name</label>
+                <input type="text" id="inputBrand" value="Market Express" oninput="updateReceipt()">
+            </div>
 
-// Show game name
-document.getElementById("gameTitle").innerText = "Payment is " + KbzPay;
-</script>
+            <div class="form-group">
+                <label for="inputAddress">Store Address</label>
+                <input type="text" id="inputAddress" value="123 Main Street, Cityville" oninput="updateReceipt()">
+            </div>
 
-</body>
-</html>
+            <div class="row">
+                <div class="form-group">
+                    <label for="inputReceiptNum">Receipt No.</label>
+                    <input type="text" id="inputReceiptNum" value="#RE-10024" oninput="updateReceipt()">
+                </div>
+                <div class="form-group">
+                    <label for="inputDate">Date</label>
+                    <input type="date" id="inputDate" onchange="updateReceipt()">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="inputTax">Tax Rate (%)</label>
+                    <input type="number" id="inputTax" value="8" min="0" step="0.1" oninput="updateReceipt()">
+                </div>
+                <div class="form-group">
+                    <label for="inputCurrency">Currency Symbol</label>
+                    <select id="inputCurrency" onchange="updateReceipt()">
+                        <option value="$">$ (USD)</option>
+                        <option value="€">€ (EUR)</option>
+                        <option value="£">£ (GBP)</option>
+                        <option value="¥">¥ (JPY)</option>
+                    </select>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 25px;">Line Items</h2>
+            <div class="items-header">
+                <div>Item Name</div>
+                <div>Qty</div>
+                <div>Price</div>
+                <div></div>
+            </div>
+            
+            <div id="itemsContainer">
+                <!-- Initial item row sample -->
+                <div class="item-row">
+                    <input type="text" class="item-name" value="Wireless Mouse" oninput="updateReceipt()">
+                    <input type="number" class="item-qty" value="1" min="1" oninput="updateReceipt()">
+                    <input type="number" class="item-price" value="25.00" min="0" step="0.01" oninput="updateReceipt()">
+                    <button class="btn btn-danger" onclick="removeItem(this)">✕</button>
+                </div>
+            </div>
+
+            <button class="btn btn-secondary" onclick="addItemRow()">+ Add Item</button>
+
+            <div class="form-group" style="margin-top: 20px;">
+                <label for="inputFooter">Footer Message</label>
+                <input type="text" id="inputFooter" value="Thank you for your business!" oninput="updateReceipt()">
+            </div>
+
+            <button class="btn btn-primary" onclick="window.print()">Print / Save PDF</button>
+        </div>
+
+        <!-- Rendered Visual Paper Preview Layer -->
+        <div class="preview-section">
+            <h2>Live Preview</h2>
+            <div class="receipt-paper" id="receiptPaper">
+                <div class="receipt-header">
