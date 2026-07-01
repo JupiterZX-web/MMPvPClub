@@ -1,103 +1,141 @@
-/* Reset */
-body {
+/* Base Reset */
+* {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #0f172a, #1e3a8a);
-  color: white;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f8f9fa;
+  color: #333;
 }
 
 /* Navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
-  padding: 15px 30px;
-  background: #020617;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
 }
 
 .logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: #38bdf8;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #111;
 }
 
 .navbar a {
-  color: white;
   text-decoration: none;
-  margin-left: 20px;
+  color: #666;
+  margin-left: 1.5rem;
+  font-weight: 500;
+  transition: color 0.2s;
 }
 
 .navbar a:hover {
-  color: #f472b6;
+  color: #111;
 }
 
-/* Hero */
+/* Hero Section */
 .hero {
   text-align: center;
-  padding: 60px 20px;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
 .hero h1 {
-  font-size: 40px;
-  color: #38bdf8;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: #111;
 }
 
 .hero p {
-  color: #cbd5f5;
+  color: #555;
+  font-size: 1.1rem;
 }
 
-/* Grid */
+/* Games Layout Wrapper */
 .games {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+/* Clean Responsive Grid Container */
+.card-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  padding: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
 }
 
-/* Card */
+/* Modern Minimalist Card Box */
 .card {
-  background: #1e293b;
-  border-radius: 15px;
-  overflow: hidden;
-  transition: 0.3s;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #eef2f5;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Interactive Card Hover Effect */
 .card:hover {
-  transform: scale(1.05);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.05);
 }
 
-.card img {
-  width: 100%;
-}
-
-/* Content */
 .card-content {
-  padding: 15px;
+  margin-bottom: 1.5rem;
 }
 
-/* Price */
+.card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+  text-transform: capitalize;
+}
+
 .price {
-  color: #facc15;
-  margin-top: 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2b6cb0; /* Professional clean blue accent */
 }
 
-/* Button */
-button {
-  margin-top: 10px;
-  padding: 10px;
+/* Clean Borderless CTA Button */
+.card button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #1a1a1a;
+  color: #ffffff;
   border: none;
-  border-radius: 6px;
-  background: #38bdf8;
-  color: black;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
-button:hover {
-  background: #0ea5e9;
+.card button:hover {
+  background-color: #404040;
+}
+
+.card a {
+  text-decoration: none;
 }
 
 /* Footer */
 .footer {
   text-align: center;
-  padding: 20px;
-  background: #020617;
+  padding: 2rem;
+  color: #888;
+  font-size: 0.9rem;
+  background-color: #ffffff;
+  margin-top: 4rem;
+  border-top: 1px solid #eef2f5;
 }
