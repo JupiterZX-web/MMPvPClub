@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Receipt Generator 2</title>
+    <style>
+        body {
+            background-color: #f3f4f6;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .receipt-paper {
+            background: #ffffff;
+            width: 340px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border: 1px dashed #9ca3af;
+            color: #000000;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .brand-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .store-info {
+            font-size: 0.8rem;
+            color: #4b5563;
+            margin-bottom: 15px;
+        }
+
+        .divider {
+            border-top: 1px dashed #000000;
+            margin: 12px 0;
+        }
+
+        .metadata-table, .items-table, .totals-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .metadata-table td {
+            font-size: 0.85rem;
+            padding: 2px 0;
+        }
+
+        .items-table th {
+            text-align: left;
+            border-bottom: 1px dashed #000000;
+            padding-bottom: 6px;
+            font-size: 0.85rem;
+        }
+
+        .items-table td {
+            padding: 6px 0;
+            vertical-align: top;
+        }
+
+        .totals-table td {
+            padding: 3px 0;
+        }
+
+        .grand-total {
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-top: 1px dashed #000000;
+            padding-top: 6px;
+            margin-top: 4px;
+        }
+
+        .thank-you-box {
+            margin-top: 25px;
+            font-size: 0.85rem;
+        }
+
+        .barcode {
+            font-family: 'Arial', sans-serif;
+            letter-spacing: 4px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin-top: 15px;
+            color: #111827;
+        }
+
+        .btn-refresh {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #111827;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-family: sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-refresh:hover {
+            background-color: #374151;
+        }
+
+        @media print {
+            .btn-refresh {
+                display: none;
+            }
+            body {
+                background: #ffffff;
+                padding: 0;
+            }
+            .receipt-paper {
+                box-shadow: none;
+                border: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="receipt-paper">
+        <!-- Header -->
+        <div class="text-center">
+            <div class="brand-name" id="rcptBrand">STORE OUTLET</div>
+            <div class="store-info" id="rcptAddress">1234 Random Way, Suite 100</div>
+        </div>
+
+        <!-- Meta Information -->
+        <table class="metadata-table">
+            <tr>
+                <td><strong>RECEIPT CODE:</strong></td>
+                <td class="text-right" id="rcptCode">XXXXXXXXX</td>
+            </tr>
+            <tr>
+                <td><strong>DATE:</strong></td>
+                <td class="text-right" id="rcptDate">00/00/0000</td>
+            </tr>
+            <tr>
+                <td><strong>TIME:</strong></td>
+                <td class="text-right" id="rcptTime">00:00 AM</td>
+            </tr>
+            <tr>
+                <td><strong>CASHIER:</strong></td>
+                <td class="text-right" id="rcptCashier">Alex #42</td>
+            </tr>
+        </table>
+
+        <div class="divider"></div>
+
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>Item Description</th>
+                    <th class="text-right" style="width: 40px;">Qty</th>
+                    <th class="text-right" style="width: 70px;">Total</th>
+                </tr>
+            </thead>
+            <tbody id="rcptItemsBody">
+                <!-- Dynamically Generated Row Content -->
+            </tbody>
+        </table>
+
+        <div class="divider"></div>
+
+        <!-- Totals Layout -->
+        <table class="totals-table">
+            <tr>
+                <td>Subtotal:</td>
+                <td class="text-right" id="rcptSubtotal">$0.00</td>
+            </tr>
+            <tr>
+                <td>Sales Tax (8.25%):</td>
+                <td class="text-right" id="rcptTax">$0.00</td>
+            </tr>
+            <tr class="grand-total">
+                <td>TOTAL PAID:</td>
+                <td class="text-right" id="rcptTotal">$0.00</td>
+            </tr>
+        </table>
+
+        <div class="divider"></div>
+
+        <!-- Thank you section -->
+        <div class="text-center thank-you-box">
+            <p><strong>THANK YOU FOR YOUR VISIT!</strong></p>
+            <p style="margin-top: 5px; color: #4b5563; font-size: 0.8rem;">
+                We appreciate your business.<br>
+                Please retain this receipt for returns.<br>
+                Tell us how we did: ://store-feedback.com
+            </p>
+            <div class="barcode">||||| | |||| ||| || ||| |<br><span id="rcptBarcodeText">0000000000</span></div>
+        </div>
+    </div>
+
+    <button class="btn-refresh" onclick="generateRandomReceipt()">Generate New Receipt</button>
+
+    <script>
+        // Preset pools for random selection templates
+        const storePool = [
+            { name: "Apex Electronics", addr: "404 Circuit Blvd, Silicon City" },
+            { name: "The Daily Grind Cafe", addr: "88 Bean Street, Espresso District" },
+            { name: "Urban Threads Co.", addr: "101 Fashion Ave, Retail Square" },
+            { name: "Green Grocer Market", addr: "72 Organic Way, Fresh Hills" },
+            { name: "Borders & Pages Books", addr: "314 Chapter Rd, Novel Town" }
+        ];
+
+        const itemPool = [
+            { name: "Premium Coffee Blend", price: 4.99 },
+            { name: "Wireless Earbuds", price: 49.99 },
+            { name: "Organic Avocado Pack", price: 6.50 },
+            { name: "Graphic Cotton Tee", price: 24.95 },
+            { name: "Hardcover Journal", price: 14.00 },
+            { name: "Stainless Water Bottle", price: 18.99 },
+            { name: "USB-C Charging Cable", price: 9.99 },
+            { name: "Almond Milk Latte", price: 5.50 },
+            { name: "Gourmet Protein Bar", price: 3.25 },
+            { name: "Eco Tote Bag", price: 2.00 }
+        ];
+
+        const cashierNames = ["Sarah M.", "James T.", "Emma R.", "David K.", "Chloe B."];
+
+        function generateRandomReceipt() {
+            // Pick a random store
+            const store = storePool[Math.floor(Math.random() * storePool.length)];
+            document.getElementById('rcptBrand').innerText = store.name;
+            document.getElementById('rcptAddress').innerText = store.addr;
+
+            // Generate random alphanumeric receipt code (e.g., RCP-TRX-48291)
+            const randomCode = "RC-" + Math.floor(100000 + Math.random() * 900000) + "-" + String.fromCharCode(65 + Math.floor(Math.random() * 26)) + String.fromCharCode(65 + Math.floor(Math.random() * 26));
+            document.getElementById('rcptCode').innerText = randomCode;
+            document.getElementById('rcptBarcodeText').innerText = Math.floor(1000000000 + Math.random() * 9000000000);
+
+            // Generate Timestamp
+            const now = new Date();
+            document.getElementById('rcptDate').innerText = now.toLocaleDateString();
+            document.getElementById('rcptTime').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            // Set random Cashier
+            document.getElementById('rcptCashier').innerText = cashierNames[Math.floor(Math.random() * cashierNames.length)] + " #" + Math.floor(10 + Math.random() * 90);
+
+            // Select 2 to 5 random items
+            const totalItemsCount = Math.floor(Math.random() * 4) + 2; 
+            const shuffledItems = [...itemPool].sort(() => 0.5 - Math.random());
+            const selectedItems = shuffledItems.slice(0, totalItemsCount);
+
+            let subtotal = 0;
+            const itemsTableBody = document.getElementById('rcptItemsBody');
+            itemsTableBody.innerHTML = "";
+
+            selectedItems.forEach(item => {
+                const qty = Math.floor(Math.random() * 3) + 1; // Qty 1 to 3
+                const totalItemPrice = item.price * qty;
+                subtotal += totalItemPrice;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${item.name}</td>
+                    <td class="text-right">${qty}</td>
+                    <td class="text-right">$${totalItemPrice.toFixed(2)}</td>
+                `;
+                itemsTableBody.appendChild(tr);
+            });
+
+            // Financial math totals
+            const taxRate = 0.0825; // 8.25%
+            const taxAmount = subtotal * taxRate;
+            const finalTotal = subtotal + taxAmount;
+
+            document.getElementById('rcptSubtotal').innerText = `$${subtotal.toFixed(2)}`;
+            document.getElementById('rcptTax').innerText = `$${taxAmount.toFixed(2)}`;
+            document.getElementById('rcptTotal').innerText = `$${finalTotal.toFixed(2)}`;
+        }
