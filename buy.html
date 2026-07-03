@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Store Purchasing Page</title>
+  <title>Order Receipt</title>
   <style>
     /* Base Reset */
     * {
@@ -66,7 +66,7 @@
 
     /* Games Layout Wrapper */
     .games {
-      max-width: 1200px;
+      max-width: 600px; /* Narrower width optimized for receipt styling */
       margin: 0 auto;
       padding: 4rem 2rem;
     }
@@ -74,20 +74,21 @@
     /* Clean Responsive Grid Container */
     .card-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: 1fr; /* Single column receipt layout */
       gap: 2rem;
     }
 
-    /* Modern Minimalist Card Box */
+    /* Modern Minimalist Card Box (Repurposed as Receipt Container) */
     .card {
       background: #ffffff;
       border-radius: 12px;
       border: 1px solid #eef2f5;
-      padding: 1.75rem;
+      padding: 2rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
     }
 
     /* Interactive Card Hover Effect */
@@ -101,11 +102,14 @@
     }
 
     .card h3 {
-      font-size: 1.25rem;
-      font-weight: 600;
+      font-size: 1.5rem;
+      font-weight: 700;
       color: #1a1a1a;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
       text-transform: capitalize;
+      text-align: center;
+      border-bottom: 2px dashed #eef2f5;
+      padding-bottom: 1rem;
     }
 
     .price {
@@ -146,6 +150,36 @@
       margin-top: 4rem;
       border-top: 1px solid #eef2f5;
     }
+
+    /* Receipt Specific Layout Utilities */
+    .receipt-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .receipt-item-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      font-size: 1rem;
+    }
+
+    .receipt-divider {
+      border-top: 1px dashed #c3cfe2;
+      margin: 1.5rem 0;
+    }
+
+    .receipt-total-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 1.5rem;
+    }
   </style>
 </head>
 <body>
@@ -156,54 +190,73 @@
     <div>
       <a href="#">Home</a>
       <a href="#">Shop</a>
-      <a href="#">Cart</a>
+      <a href="#">Orders</a>
     </div>
   </nav>
 
   <!-- Hero Section -->
   <header class="hero">
-    <h1>Featured Games</h1>
-    <p>Explore your next favorite adventure today.</p>
+    <h1>Thank You!</h1>
+    <p>Your order has been successfully processed.</p>
   </header>
 
   <!-- Games Layout Wrapper -->
   <main class="games">
     <div class="card-container">
       
-      <!-- Card 1 -->
+      <!-- Receipt Container Structure -->
       <article class="card">
         <div class="card-content">
-          <h3>Cyber Odyssey</h3>
-          <p class="price">$59.99</p>
-        </div>
-        <a href="#"><button>Purchase</button></a>
-      </article>
+          <h3>Payment Receipt</h3>
+          
+          <!-- Metadata Block -->
+          <div class="receipt-meta">
+            <span><strong>Order ID:</strong> #GS-98341</span>
+            <span><strong>Date:</strong> July 3, 2026</span>
+          </div>
+          
+          <div class="receipt-meta" style="margin-bottom: 1.5rem;">
+            <span><strong>Payment:</strong> Visa (•••• 4321)</span>
+            <span><strong>Status:</strong> Paid</span>
+          </div>
 
-      <!-- Card 2 -->
-      <article class="card">
-        <div class="card-content">
-          <h3>Shadow Realm</h3>
-          <p class="price">$39.99</p>
-        </div>
-        <a href="#"><button>Purchase</button></a>
-      </article>
+          <div class="receipt-divider"></div>
 
-      <!-- Card 3 -->
-      <article class="card">
-        <div class="card-content">
-          <h3>Speed Racer X</h3>
-          <p class="price">$49.99</p>
-        </div>
-        <a href="#"><button>Purchase</button></a>
-      </article>
+          <!-- Line Items -->
+          <div class="receipt-item-row">
+            <span>Cyber Odyssey (x1)</span>
+            <span>$59.99</span>
+          </div>
 
-      <!-- Card 4 -->
-      <article class="card">
-        <div class="card-content">
-          <h3>Pixel Dungeon</h3>
-          <p class="price">$19.99</p>
+          <div class="receipt-item-row">
+            <span>Pixel Dungeon (x2)</span>
+            <span>$39.98</span>
+          </div>
+
+          <div class="receipt-divider"></div>
+
+          <!-- Financial Breakdown -->
+          <div class="receipt-item-row" style="color: #666;">
+            <span>Subtotal</span>
+            <span>$99.97</span>
+          </div>
+
+          <div class="receipt-item-row" style="color: #666;">
+            <span>Tax (8%)</span>
+            <span>$8.00</span>
+          </div>
+
+          <div class="receipt-divider"></div>
+
+          <!-- Final Total -->
+          <div class="receipt-total-row">
+            <span>Total Paid</span>
+            <span class="price">$107.97</span>
+          </div>
         </div>
-        <a href="#"><button>Purchase</button></a>
+        
+        <!-- Action Button -->
+        <a href="window.print()"><button onclick="window.print(); return false;">Print Receipt</button></a>
       </article>
 
     </div>
